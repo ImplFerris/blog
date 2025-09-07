@@ -7,7 +7,7 @@ description = "In this post, i will try to explain what blanket implementation m
 tags = ["blanket", "impl", "generic"]
 +++
  
-While writing the RTC HAL chapter for the [Rust Embedded Drivers (RED) book](https://red.implrust.com), I needed to use blanket implementations as a design choice. Instead of explaining this concept in the book and clutting the book, I thought it would be better to write a blog post instead. That's how i end up with my first blog post in implRust :)
+While writing the RTC HAL chapter for the [Rust Embedded Drivers (RED) book](https://red.implrust.com), I needed to use blanket implementations as a design choice. Instead of explaining this concept in the book and cluttering the book, I thought it would be better to write a blog post instead. That's how i end up with my first blog post in implRust :)
 
 # What is a Blanket Implementation?
 

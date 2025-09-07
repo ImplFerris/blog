@@ -106,10 +106,10 @@ pub enum Menu {
 impl Menu {
     pub fn price(&self) -> f32 {
         match self {
-            Menu::Pizza => 12.99,
-            Menu::Burger => 9.99,
-            Menu::Tacos => 8.99,
-            Menu::Burrito => 10.99,  // Add price for burrito
+            Menu::Pizza => 100.0,
+            Menu::Burger => 180.0,
+            Menu::Tacos => 60.0,
+            Menu::Burrito => 150.0,  // Add price for burrito
         }
     }
 }
@@ -143,9 +143,9 @@ pub enum Menu {
 impl Menu {
     pub fn price(&self) -> f32 {
         match self {
-            Menu::Pizza => 12.99,
-            Menu::Burger => 9.99,
-            Menu::Tacos => 8.99,
+            Menu::Pizza => 100.0,
+            Menu::Burger => 180.0,
+            Menu::Tacos => 60.0,
         }
     }
 }
@@ -190,10 +190,10 @@ pub enum Menu {
 impl Menu {
     pub fn price(&self) -> f32 {
         match self {
-            Menu::Pizza => 12.99,
-            Menu::Burger => 9.99,
-            Menu::Tacos => 8.99,
-            Menu::Burrito => 10.99,
+            Menu::Pizza => 100.0,
+            Menu::Burger => 180.0,
+            Menu::Tacos => 60.0,
+            Menu::Burrito => 150.0,
         }
     }
 }

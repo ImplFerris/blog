@@ -1,0 +1,1 @@
+# impl Blog for Ferris

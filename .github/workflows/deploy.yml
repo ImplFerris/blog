@@ -1,0 +1,30 @@
+# Deploy Zola blog to GitHub Pages
+on: 
+  push:
+    branches: [ main ] 
+  workflow_dispatch:  # Allow manual triggering
+
+name: Build and deploy to GitHub Pages
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Build and deploy with Zola
+        uses: shalzz/zola-deploy-action@master
+        env:
+          # Target branch for GitHub Pages
+          PAGES_BRANCH: gh-pages
+          
+          # Use automatic token if deploying to same repo
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+          # If deploying to different repo, uncomment and use personal token:
+          # TOKEN: ${{ secrets.TOKEN }}
+          # REPOSITORY: yourusername/yourusername.github.io
+          
+          # Build directory (usually just . for root)
+          BUILD_DIR: .

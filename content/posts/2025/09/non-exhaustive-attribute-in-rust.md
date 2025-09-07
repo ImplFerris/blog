@@ -1,18 +1,22 @@
 +++
 date = "2025-09-07"
 
-title = "How #[non_exhaustive] Helps Your Rust Library"
-description = "In this post, i will try to explain what blanket implementation means in Rust"
+title = "Avoiding Breaking Changes with Rust's #[non_exhaustive]"
+description = "In this post, I will explain how the #[non_exhaustive] attribute helps library authors avoid breaking changes in Rust."
 
 [taxonomies]
-tags = ["blanket", "impl", "generic"]
+tags = ["non_exhaustive", "semver", "library"]
 +++
 
-The #[non_exhaustive] attribute tells Rust that a type might get new fields or variants in the future. You can use it on enums, structs, and even individual enum variants. When you mark something with this attribute, Rust enforces certain restrictions on how external crates can use that type.
+Adding new variants to public enums or fields to public structs is a breaking change that forces all downstream users to update their code. Rust's #[non_exhaustive] attribute solves this problem by telling the compiler that a type might gain new variants or fields in future versions, forcing external crates to write future-proof code from the start.
 
 > [Official doc explanation](https://doc.rust-lang.org/reference/attributes/type_system.html): The non_exhaustive attribute indicates that a type or variant may have more fields or variants added in the future.
 
-For enums, it means users must include a wildcard pattern (_) in match statements. For structs, it prevents direct construction and requires wildcards in pattern matching. Think of it as a "future-proofing" attribute that says "hey, I might add more to this later, so don't assume this is complete". However, these restrictions only apply to downstream crates that depend on your library. Within the defining crate itself, these rules don't apply.
+Think of it as a "future-proofing" attribute that says "hey, I might add more to this later, so don't assume this is complete"
+
+When you mark an enum with #[non_exhaustive], external crates must include a wildcard pattern (_) in their match statements, so adding new variants won't break their code. For structs, it prevents direct construction using struct literal syntax and requires wildcards (..) in pattern matching, allowing you to safely add new fields later. This way, you can evolve your API without forcing breaking changes on your users - they write defensive code once, and your library can grow without breaking their applications.
+
+However, these restrictions only apply to downstream crates that depend on your library. Within the defining crate itself, these rules don't apply.
 
 ## Example: Marking enum with non_exhaustive attribute
 

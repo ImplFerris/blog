@@ -36,7 +36,10 @@ index_format = "elasticlunr_json"
 highlight_code = true
 bottom_footnotes = true
 # To use a Zola built-in theme, CSP needs to allow unsafe-inline for style-src.
-highlight_theme = "gruvbox-dark"
+highlight_theme = "css"
+highlight_themes_css = [
+    { theme = "gruvbox-dark", filename = "syntax-theme-dark.css" },
+]
 smart_punctuation = true
 # Set to 'external' to add an indicator next to external links.
 external_links_class = "external"

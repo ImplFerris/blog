@@ -39,6 +39,10 @@
         {% endif %}
     {% endif %}
 
+    {% if config.markdown.highlight_code and config.markdown.highlight_theme == "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path='syntax-theme-dark.css') }}" />
+    {% endif %}
+    
     {# CSS #}
     {# Load subset of glyphs for header. Avoids flashing issue in Firefox #}
     {% if config.extra.enable_subset %}

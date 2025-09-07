@@ -21,7 +21,7 @@
 
 <div class="archive">
     <ul class="list-with-title">
-        {%- set source_paths = section.extra.section_path | default(value="blog/") -%}
+        {%- set source_paths = section.extra.section_path | default(value="posts/") -%}
         {%- if source_paths is iterable -%}
             {%- set paths = source_paths -%}
         {%- else -%}

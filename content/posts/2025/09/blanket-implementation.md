@@ -1,12 +1,13 @@
 +++
-title = "Let's understand what is Blanket Implementation in Rust"
 date = "2025-09-07"
+
+title = "Let's understand what is Blanket Implementation in Rust"
 description = "In this post, i will try to explain what blanket implementation means in Rust"
 
 [taxonomies]
 tags = ["blanket", "impl", "generic"]
 +++
- 
+
 While writing the RTC HAL chapter for the [Rust Embedded Drivers (RED) book](https://red.implrust.com), I needed to use blanket implementations as a design choice. Instead of explaining this concept in the book and cluttering the book, I thought it would be better to write a blog post instead. That's how i end up with my first blog post in implRust :)
 
 # What is a Blanket Implementation?

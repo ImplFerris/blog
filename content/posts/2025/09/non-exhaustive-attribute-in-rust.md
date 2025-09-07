@@ -8,7 +8,7 @@ description = "In this post, I will explain how the #[non_exhaustive] attribute 
 tags = ["non_exhaustive", "semver", "library"]
 +++
 
-Adding new variants to public enums or fields to public structs is a breaking change that forces all downstream users to update their code. Rust's #[non_exhaustive] attribute solves this problem by telling the compiler that a type might gain new variants or fields in future versions, forcing external crates to write future-proof code from the start.
+When you add new variants to public enums or new fields to public structs, you create a breaking change. This means any crates that depend on your library will need to update their code before they can use your new version. Rust's `#[non_exhaustive]` attribute solves this problem by telling the compiler that a type might gain new variants or fields in future versions, forcing external crates to write future-proof code from the start.
 
 > [Official doc explanation](https://doc.rust-lang.org/reference/attributes/type_system.html): The non_exhaustive attribute indicates that a type or variant may have more fields or variants added in the future.
 

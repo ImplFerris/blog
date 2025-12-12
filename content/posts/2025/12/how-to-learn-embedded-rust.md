@@ -65,7 +65,7 @@ Why? ESP32 boards are widely available, affordable, and include built-in WiFi an
 
 **Alternative option: Raspberry Pi Pico 2**
 
-If you can't find an ESP32 board where you live, the **Raspberry Pi Pico 2** (with RP2350 chip) is an excellent alternative.. The main tradeoff is it lacks WiFi and Bluetooth, but it's perfect for learning embedded fundamentals.  There's also a Pico W variant that supports WiFi and Bluetooth. 
+If you can't find an ESP32 board where you live, the **Raspberry Pi Pico 2** (with RP2350 chip) is an excellent alternative.. The main tradeoff is it lacks WiFi and Bluetooth, but it's perfect for learning embedded fundamentals.  There's also a Pico 2 W variant that supports WiFi and Bluetooth, though you may need to adjust the code slightly when following tutorials with it.
 
 <img src="https://pico.implrust.com/images/pico2.png" width="350" alt="Raspberry Pi Pico 2" style="width:400px; height:auto; display:block; margin:auto;"/>
 

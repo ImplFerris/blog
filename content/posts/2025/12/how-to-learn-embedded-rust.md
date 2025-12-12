@@ -87,7 +87,6 @@ Next, I bought a Raspberry Pi Pico 2 (with the RP2350 chip). It's an excellent b
 
 However, there is one thing I did not like: every time you want to run your new program on the board, you must press a button and reconnect the USB cable. And if you make changes again, you need to unplug and repeat the same steps. This becomes tiring very quickly.
 
-
 <img src="https://pico.implrust.com/debugging/images/Debug%20Probe%20for%20Raspberry%20Pi%20Pico%202%20-%20Rust%20Debugging.jpg" width="550" alt="Raspberry Pi Pico Debug Probe" style="width:550px; height:auto; display:block; margin:auto;"/>
 
 This problem can be solved with a debug probe, a separate piece of hardware. With a debug probe. With a debug probe, you can write and debug your code seamlessly without unplugging anything. However, buying a board plus a debug probe brings the total cost to about three times that of an ESP32 DevKit V1. But, the advantage is that you get proper debugging capabilities that work across different boards, but it's an extra expense that's not strictly necessary when you're just starting out on a tight budget.
@@ -216,3 +215,13 @@ You might wonder what writing an OS has to do with embedded Rust. In many embedd
 I have also written an open source book that focuses on building drivers in Embedded Rust. This book is slightly more advanced than my board-specific books, so it is best explored after completing the introductory material. It offers step-by-step guidance on writing drivers from the ground up for components such as the DHT22 sensor, the MAX7219 LED display (including an embedded-graphics implementation), RTC modules, and a platform-agnostic RTC HAL to illustrate the embedded-hal concept.
 
 [https://red.implrust.com/](https://red.implrust.com/)
+
+
+### Wokwi Platform
+
+[Wokwi](https://wokwi.com/) is an online simulator for embedded projects. It lets you write code, connect virtual components, and test circuits in the browser. It supports boards like Arduino, ESP32, and Raspberry Pi Pico, and it also supports running Embedded Rust projects. It is a quick way to experiment, learn, and verify ideas without using real hardware.
+
+<img src="/img/wokwi-simulation-max7219-embedded-rust.jpeg" alt="Embedded Rust - Simulation with Wokwi MAX7219 Display" style=" height:auto; display:block; margin:auto;"/>
+
+You can run simulations directly in the browser or through the [Wokwi for VS Code](https://docs.wokwi.com/vscode/getting-started) extension. In my experience, the Rust simulator on the website can be unreliable, while the VS Code extension works more consistently. However, nothing fully replaces having fun with real hardware.
+

@@ -12,6 +12,10 @@ tags = ["learning", "embedded", "beginner"]
 
 As a beginner, you might wonder where to start with Embedded Rust. I have been in the same place, and I have seen many others recently asking the same question. So I decided to write this blog post to help. In this guide, I will explain how to get started, what to focus on first, and share a list of useful resources including books, YouTube videos, and other material you can learn from.
 
+## Table of Contents
+ 
+<!-- toc -->
+
 ## Are you new to embedded programming or just to Embedded Rust?
 
 Where you should begin depends on your background. If you are an absolute beginner to embedded programming itself, your learning path will be different from someone who already understands embedded development and only wants to learn Embedded Rust. Even within those groups, goals can vary, such as learning for a hobby or for professional work. I'll do my best to address a broad audience while covering the most common scenarios.

@@ -211,3 +211,8 @@ You might wonder what writing an OS has to do with embedded Rust. In many embedd
 [https://os.phil-opp.com/](https://os.phil-opp.com/)
 
 
+### Rust Embedded Driver (RED) Book
+
+I have also written an open source book that focuses on building drivers in Embedded Rust. This book is slightly more advanced than my board-specific books, so it is best explored after completing the introductory material. It offers step-by-step guidance on writing drivers from the ground up for components such as the DHT22 sensor, the MAX7219 LED display (including an embedded-graphics implementation), RTC modules, and a platform-agnostic RTC HAL to illustrate the embedded-hal concept.
+
+[https://red.implrust.com/](https://red.implrust.com/)

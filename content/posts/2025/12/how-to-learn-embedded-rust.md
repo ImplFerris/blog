@@ -56,17 +56,19 @@ If you already have a board, great! You can start with that. Otherwise, let me g
 
 {{ admonition(type="tip", text="My recommendation: Get an ESP32 development board.") }}
 
-
 Why? ESP32 boards are widely available, affordable, and include built-in WiFi and Bluetooth, which opens up many project possibilities. They have solid Embedded Rust support through the esp-rs project.
 
 <img src="https://esp32.implrust.com/images/esp32-devkitv1.jpg" width="250" alt="ESP32 Devkit V1" style="width:400px; height:auto; display:block; margin:auto;"/>
 
-**Look for boards labeled:**
+**Look for these boards - they all use the original ESP32 chip:**
 
 - "ESP32 DevKit V1" - This is my top recommendation because my open-source book is based on this board, making it easy to follow along with tutorials and examples.
+
 - "ESP32 DevKit C"
 
-**Important:** ESP32 comes in different variants (original ESP32, ESP32-S2, ESP32-S3, ESP32-C3, ESP32-C6, etc.). I'm recommending the **original ESP32** (also called ESP32-WROOM). Make sure you're getting a plain "ESP32" board, not the S-series or C-series variants, as those are different chips.
+Any board using the original ESP32 chip should be fine. There might be slight differences in pin layout and labeling, but the code and core features remain the same.
+
+**Important:** ESP32 comes in different variants (original ESP32, ESP32-S2, ESP32-S3, ESP32-C3, ESP32-C6, etc.). I'm recommending the **original ESP32** (also called ESP32-WROOM or ESP32-WROOM-32). Make sure you're getting a plain "ESP32" board, not the S-series or C-series variants, as those are different chips with different architectures.
 
 **Alternative option: Raspberry Pi Pico 2**
 

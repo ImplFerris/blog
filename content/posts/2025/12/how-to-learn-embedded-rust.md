@@ -54,7 +54,8 @@ A **development board** (or "devboard") is a circuit board that contains a micro
 
 If you already have a board, great! You can start with that. Otherwise, let me give you a straightforward recommendation without overwhelming you with options.
 
-**My recommendation: Get an ESP32 development board.**
+{{ admonition(type="tip", text="My recommendation: Get an ESP32 development board.") }}
+
 
 Why? ESP32 boards are widely available, affordable, and include built-in WiFi and Bluetooth, which opens up many project possibilities. They have solid Embedded Rust support through the esp-rs project.
 

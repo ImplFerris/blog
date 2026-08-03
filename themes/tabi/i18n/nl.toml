@@ -1,3 +1,6 @@
+# NOTE: The labels for GitHub-style alerts are defined in sass/parts/_admonitions.scss.
+# Please keep both in sync when adding or updating a language.
+
 language_name = "Dutch"  # Shown in language picker for multi-language sites.
 date_locale = "nl_NL" #nl_BE can also be used for Flemish
 full_stop = "."  # Used at the end of a sentence.
@@ -23,6 +26,7 @@ one_results = "$NUMBER resultaat"  # "1 result"
 many_results = "$NUMBER resultaten"  # "3 results"
 
 # Navigation.
+skip_to_content = "Naar inhoud springen"
 pinned = "Vastgezet"
 jump_to_posts = "Naar berichten springen"
 read_more = "Lees meer"

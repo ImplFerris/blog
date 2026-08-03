@@ -29,14 +29,18 @@ index_format = "elasticlunr_json"
 
 
 [markdown]
-highlight_code = true
 bottom_footnotes = true
 # To use a Zola built-in theme, CSP needs to allow unsafe-inline for style-src.
-highlight_theme = "css"
-highlight_themes_css = [
-    { theme = "gruvbox-dark", filename = "syntax-theme-dark.css" },
-]
+# highlight_theme = "css"
+# highlight_themes_css = [
+#     { theme = "gruvbox-dark", filename = "syntax-theme-dark.css" },
+# ]
 smart_punctuation = true
+
+[markdown.highlighting]
+style = "class"
+error_on_missing_language = true
+theme = "gruvbox-dark-hard"
 
 
 [extra]
@@ -81,7 +85,7 @@ skin = "lowcontrast_orange"
 # These stylesheets should be located in your site's `static` directory.
 # Example: stylesheets = ["extra1.css", "path/extra2.css"]
 # You can load a stylesheet for a single post by adding it to the [extra] section of the post's front matter, following this same format.
-stylesheets = []
+stylesheets = ["css/custom.css"]
 
 # Sets the default canonical URL for all pages.
 # Individual pages can override this in the [extra] section using canonical_url.
@@ -239,7 +243,7 @@ enable_cards_tag_filtering = true
 invert_title_order = true
 
 # Full path after the base URL required. So if you were to place it in "static" it would be "/favicon.ico"
-# favicon = ""
+favicon = "img/favicon.svg"
 
 # Add an emoji here to use it as favicon.
 # Compatibility: https://caniuse.com/link-icon-svg

@@ -1,3 +1,6 @@
+# NOTE: The labels for GitHub-style alerts are defined in sass/parts/_admonitions.scss.
+# Please keep both in sync when adding or updating a language.
+
 language_name = "Italiano"  # Shown in language picker for multi-language sites.
 date_locale = "it_IT"
 full_stop = "."  # Used at the end of a sentence.
@@ -23,6 +26,7 @@ one_results = "$NUMBER risultato"
 many_results = "$NUMBER risultati"
 
 # Navigation.
+skip_to_content = "Salta al contenuto"
 pinned = "In evidenza"
 jump_to_posts = "Vai ai post"
 read_more = "Leggi di più"

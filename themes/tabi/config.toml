@@ -33,16 +33,17 @@ include_content = true
 index_format = "elasticlunr_json"
 
 [markdown]
-highlight_code = true
 bottom_footnotes = true
-# To use a Zola built-in theme, CSP needs to allow unsafe-inline for style-src.
-highlight_theme = "css"
-highlight_themes_css = [
-    { theme = "gruvbox-dark", filename = "syntax-theme-dark.css" },
-]
 smart_punctuation = true
 # Set to 'external' to add an indicator next to external links.
 external_links_class = "external"
+# Render GitHub-style alerts, e.g. `> [!NOTE]`. Requires Zola 0.21+.
+github_alerts = true
+
+[markdown.highlighting]
+theme = "catppuccin-frappe"
+style = "class"
+error_on_missing_language = true
 
 [link_checker]
 internal_level = "warn"
@@ -110,6 +111,9 @@ skin = ""
 # More details: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name/theme-color
 browser_theme_color = "#087e96"
 # browser_theme_color = ["#ffffff", "#000000"]  # Example of light/dark colours.
+
+# For multilingual sites: show current language code on the language switcher.
+show_selected_language_code_in_language_switcher = false
 
 # List additional stylesheets to load site-wide.
 # These stylesheets should be located in your site's `static` directory.
@@ -292,7 +296,9 @@ menu = [
     { name = "projects", url = "projects", trailing_slash = true },
 ]
 
-# The RSS icon will be shown if (1) it's enabled and (2) the following variable is set to true.
+# The RSS icon will be shown if (1) it's enabled and (2) the following variable is set.
+# Set to true to use the default "rss" icon, or specify a custom icon name (e.g. "square-rss").
+# The icon must exist in static/social_icons/ (without the .svg extension).
 # Note for Zola 0.19.X users: when `feed_filenames` has two filenames, only the first one will be linked in the footer.
 feed_icon = true
 
@@ -343,7 +349,7 @@ footer_menu = [
 # For multi-language sites, you can set a different copyright for each language.
 # The old way of setting `translated_copyright = true` and using i18n files is deprecated.
 # If a translation is missing for language, the `copyright` value will be used.
-# copyright_translations.es = "$TITLE © $CURRENT_YEAR $AUTHOR $SEPARATOR A menos que se indique lo contrario, el contenido de esta web está disponible bajo la licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)."
+# copyright_translations.es = "$TITLE © $CURRENT_YEAR $AUTHOR $SEPARATOR A menos que se indique lo contrario, el contenido de esta web está disponible bajo la licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es)."
 
 # Custom security headers. What urls should your website be able to connect to?
 # You need to specify the CSP and the URLs associated with the directive.
@@ -373,7 +379,7 @@ enable_subset = true
 # Use a custom subset of characters for the header.
 # If true, tabi will load the `static/custom_subset.css` file.
 # If false, tabi will use the default language-specific subset (English or Spanish).
-custom_subset = true
+# custom_subset = true
 
 [extra.analytics]
 # Specify which analytics service you want to use.
@@ -383,7 +389,7 @@ service = "goatcounter"
 # Unique identifier for tracking.
 # For GoatCounter, this is the code you choose during signup.
 # For Umami, this is the website ID.
-# For Plausible, this is the domain name (e.g. "example.com").
+# For Plausible, this is the random script name without the extension (e.g. "pa-XXXXXX") or the domain name (legacy mode, e.g. "example.com").
 # Note: Leave this field empty if you're self-hosting GoatCounter.
 # id = "yourID"
 
@@ -438,7 +444,7 @@ page_author = ""  # Email (or base64 encoded email) of the author.
 lazy_loading = true
 
 # Isso support for comments. https://isso-comments.de/
-# You need to self-host the backend first: https://blog.phusion.nl/2018/08/16/isso-simple-self-hosted-commenting-system/
+# You need to self-host the backend first: https://blog.phusion.nl/isso-simple-self-hosted-commenting-system/
 # More info on some settings: https://isso-comments.de/docs/reference/client-config/
 [extra.isso]
 enabled_for_all_posts = false  # Enables Isso on all posts. It can be enabled on individual posts by setting `isso = true` in the [extra] section of a post's front matter.

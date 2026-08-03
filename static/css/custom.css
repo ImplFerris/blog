@@ -1,0 +1,65 @@
+article {
+    max-width: 100% !important;
+}
+
+
+/* -------- Gruvbox custom color -------- */
+
+/* keywords */
+.z-keyword {
+    color: #fa5c4b !important;
+}
+
+/* let, fn */
+.z-storage,
+.z-storage.z-type {
+    color: #fa5c4b !important;
+}
+
+/* functions + macros */
+.z-entity.z-name.z-function {
+    color: #fabd2f !important;
+}
+
+/* types */
+.z-entity.z-name.z-type {
+    color: #8ec07c !important;
+}
+
+/* module/path names */
+.z-entity.z-name {
+    color: #fdf4c1 !important;
+}
+
+/* variables */
+.z-variable,
+.z-variable.z-other {
+    color: #fdf4c1 !important;
+}
+
+/* numbers */
+.z-constant {
+    color: #d3869b !important;
+}
+
+/* strings */
+.z-string {
+    color: #b8bb26 !important;
+}
+
+/* operators */
+.z-keyword.z-operator {
+    color: #fe8019 !important;
+}
+
+/* punctuation */
+.z-punctuation {
+    color: #ebdbb2 !important;
+}
+
+/* comments */
+.z-comment,
+.z-comment.z-comment {
+    color: #928374 !important;
+    font-style: italic;
+}

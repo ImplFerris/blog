@@ -1,7 +1,7 @@
 +++
 title = "Lost in Translation? Not with tabi's Multilingual Capabilities"
 date = 2023-09-12
-updated = 2025-08-07
+updated = 2026-01-03
 description = "Master the art of serving a global audience through tabi's built-in multilingual features. Learn how to change the default language, add multilingual support, and contribute your own translations."
 
 [taxonomies]
@@ -39,6 +39,7 @@ tabi supports the following languages:
 - Odia
 - Persian
 - Portuguese (European)
+- Portuguese (Brazilian)
 - Russian
 - Spanish
 - Ukranian
@@ -148,3 +149,7 @@ If you did, you will need to manually update the translations. You can do this b
 ## Does tabi translate my content?
 
 No. tabi only translates the theme's text strings. You will need to translate your content yourself.
+
+# How to show current language code on the language switcher?
+
+Add `show_selected_language_code_in_language_switcher = true` in your config extras.

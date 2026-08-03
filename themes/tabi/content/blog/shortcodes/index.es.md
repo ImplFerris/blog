@@ -1,7 +1,7 @@
 +++
 title = "Shortcodes personalizados"
 date = 2023-02-19
-updated = 2025-08-01
+updated = 2025-10-21
 description = "Este tema incluye algunos shortcodes personalizados útiles que puedes utilizar para mejorar tus publicaciones. Puedes mostrar imágenes que se adapten a los temas claro y oscuro, dar formato a una sección de referencias con un aspecto profesional, y más."
 
 [taxonomies]
@@ -236,7 +236,7 @@ Si estableces el `name` como una URL (es decir, comienza con `http` o `https`), 
 
 {{ admonition(type="warning", title="JavaScript requerido", text="La función de URLs clickables requiere JavaScript. Para habilitarla, configura `code_block_name_links = true` en la sección `[extra]` de tu página, sección, o `config.toml`.") }}
 
-```.gitignore,name=https://github.com/welpo/doteki/blob/main/.gitignore
+```plain,name=https://github.com/welpo/doteki/blob/main/.gitignore
 __pycache__/
 *coverage*
 .vscode/
@@ -331,7 +331,7 @@ Mostar sólo las líneas 3 a 5 de un archivo remoto:
 
 ### Advertencias
 
-Destaca información con estos shortcodes. Hay cinco tipos (`type`): `note`, `tip`, `info`, `warning`, y `danger`.
+Destaca información con estos shortcodes de advertencia/alerta. Hay cinco tipos (`type`): `note`, `tip`, `info`, `warning`, y `danger`.
 
 {{ admonition(type="note", text="Contenido con **sintaxis** *Markdown*. Consulta [esta `api`](#).") }}
 

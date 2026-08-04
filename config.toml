@@ -381,7 +381,7 @@ do_not_track = true
 
 # giscus support for comments. https://giscus.app
 # Setup instructions: https://welpo.github.io/tabi/blog/comments/#setup
-[extra.giscus]
+# [extra.giscus]
 # enabled_for_all_posts = false  # Enables giscus on all posts. It can be enabled on individual posts by setting `giscus = true` in the [extra] section of a post's front matter.
 # automatic_loading = true  # If set to false, a "Load comments" button will be shown.
 # repo = "welpo/tabi-comments"
@@ -396,6 +396,28 @@ do_not_track = true
 # dark_theme = "noborder_dark"
 # lang = ""  # Leave blank to match the page's language.
 # lazy_loading = true
+[extra.giscus]
+enabled_for_all_posts = true
+automatic_loading = true
+
+repo = "ImplFerris/blog"
+repo_id = "R_kgDOPrOVPg"
+
+category = "Announcements"
+category_id = "DIC_kwDOPrOVPs4DCpXl"
+
+mapping = "pathname"
+strict_title_matching = 0
+
+enable_reactions = 1
+comment_box_above_comments = true
+
+# Match the theme you selected on giscus.app
+light_theme = "gruvbox"
+dark_theme = "gruvbox"
+
+lang = "en"
+lazy_loading = true
 
 # utterances support for comments. https://utteranc.es
 # Setup instructions: https://welpo.github.io/tabi/blog/comments/#setup

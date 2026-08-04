@@ -5,7 +5,7 @@ title = "Getting started: How to Learn Embedded Rust for Beginners"
 description = "Want to learn Embedded Rust but not sure where to begin? In this post, I will show you how to get started with Embedded Rust and share tutorials, books, videos, and other useful resources you can learn from."
 
 [taxonomies]
-tags = ["learning", "embedded", "beginner"]
+tags = ["learning", "embedded", "embedded-rust", "beginner"]
 +++
 
 <img src="/img/embedded-rust.png" width="550" alt="Learning Embedded Rust" style="width:550px; height:auto; display:block; margin:auto;"/>

@@ -5,7 +5,7 @@ title = "Working with Fixed-Point Numbers in Rust Using the fixed Crate"
 description = "In this post, we take a quick look at fixed-point numbers and how to use them in Rust. We also briefly explain why they are useful in embedded and other scenarios, with examples using the fixed crate."
 
 [taxonomies]
-tags = ["fixed-point", "embedded", "floating"]
+tags = ["fixed-point", "embedded-rust", "floating", "embedded"]
 +++
 
 <img src="/img/2025/12/fixed-point-number-illustration.png"  alt="Fixed Point number illustration" style="width:400px; height:auto; display:block; margin:auto;"/>

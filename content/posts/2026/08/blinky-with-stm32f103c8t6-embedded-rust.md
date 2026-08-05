@@ -9,11 +9,17 @@ description = "Learn how to blink the onboard LED on the STM32 Blue Pill (STM32F
 tags = ["embedded-rust", "stm32", "stm32f103", "stm32f103c8t6", "stm32f1xx-hal"]
 +++
 
-The STM32 Blue Pill is the newest addition to my embedded hardware collection. To be honest, I bought it while ordering some other electronic components. The board was so inexpensive that I simply added one to my cart.
+![STM32 Blue Pill](/img/2026/08/stm32f103c8t6-blue-pill-dev-board.jpg)
 
-There are plenty of tutorials for the Blue Pill using C and other programming languages. In this post, however, i will explain with Embedded Rust.
+The STM32 Blue Pill is the newest addition to my embedded hardware collection. I picked one up while ordering some other electronic components because it was so inexpensive. 
 
-I am planning to start with a simple LED blinky program using this board. I might turn it into a series as I explore more of what the STM32 Blue Pill has to offer.
+The Blue Pill is a low-cost development board based on the STM32F103C8T6 microcontroller, often abbreviated as STM32F103C8, from STMicroelectronics. The STM32F103 microcontroller was first introduced in 2007. It is based on a 32-bit Arm Cortex-M3 processor and provides 64 KB of Flash memory and 20 KB of SRAM. 
+
+{% admonition(type="tip") %}
+If you are buying a development board today, you may want to consider a newer option with better performance and more features.
+{% end %}
+
+There are plenty of tutorials for the Blue Pill using C and other programming languages. In this post, however, i'll use Embedded Rust.  I am planning to start with a simple LED blinky program using this board. I might turn it into a series as I explore more of what the STM32 Blue Pill has to offer.
 
 ## Before You Begin
 
@@ -22,14 +28,6 @@ This tutorial assumes you are familiar with basic Rust programming and fundament
 It also assumes you already have an Embedded Rust development environment set up. If not, I recommend reading the following guide first:
 
 [Setting Up an Embedded Rust Development Environment](https://blog.implrust.com/posts/2026/08/embedded-rust-development-environment/)
-
-## Meet the STM32 Blue Pill
-
-The STM32 Blue Pill is a low-cost development board based on the STM32F103C8T6 microcontroller, often abbreviated as STM32F103C8, from STMicroelectronics. Despite being around for many years, it is still widely used for learning embedded systems, prototyping, and hobby projects.
-
-![STM32 Blue Pill](/img/2026/08/stm32f103c8t6-blue-pill-dev-board.jpg)
-
-It is based on the 32-bit Arm Cortex-M3 processor and provides 64 KB of Flash memory, 20 KB of SRAM. 
 
 ## Hardware Debugger & Programmer
 

@@ -406,7 +406,7 @@ repo_id = "R_kgDOPrOVPg"
 category = "Announcements"
 category_id = "DIC_kwDOPrOVPs4DCpXl"
 
-mapping = "pathname"
+mapping = "title"
 strict_title_matching = 0
 
 enable_reactions = 1

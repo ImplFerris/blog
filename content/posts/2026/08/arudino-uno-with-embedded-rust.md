@@ -214,3 +214,13 @@ The release mode build can help reduce the firmware size. You can build it with 
 The `avr-hal` project has a collection of examples showing how to work with different peripherals and features. There is a separate set of examples for the Arduino Uno.
 
 You can find them in the [`avr-hal` examples](https://github.com/Rahix/avr-hal/tree/main/examples) directory.
+
+## Final Thoughts
+
+So, can you use Rust with an Arduino Uno? Yes. We just did it, and our first Rust program used only 262 bytes of flash.
+
+The `avr-hal` project does not seem to have much recent development activity, and it currently uses the `nightly-2025-04-27` Rust toolchain. The project template uses the same nightly version. Because of this, tools such as Rust Analyzer can complain about the old toolchain, which makes development a little harder.
+
+I have only tried a simple blinky so far, so I still need to build some real applications and see how the experience goes. I bought the Uno mainly to experiment with Rust.
+
+Once again, if you want to see the better side of Embedded Rust, try the ESP32 family, Raspberry Pi Pico, or STM32. You should also explore the [Embassy framework](https://embassy.dev/). Embassy is an async runtime for embedded systems, using Rust's async and await features.

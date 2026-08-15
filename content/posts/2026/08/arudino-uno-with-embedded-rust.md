@@ -22,7 +22,7 @@ tags = [
   <figcaption>Arduino Uno compatible board</figcaption>
 </figure>
 
-Embedded Rust keeps getting more mature, and most people use boards like the ESP32 or Raspberry Pi Pico with Rust. At least, those are the boards I have used most for Embedded Rust.
+Embedded Rust keeps getting more mature, and most people use boards like the ESP32, Raspberry Pi Pico or STM32 with Rust. At least, those are the boards I have used most for Embedded Rust.
 
 But what if you already have an Arduino Uno? Can you use Rust with it?
 
@@ -32,12 +32,10 @@ The Arduino Uno uses the ATmega328P, an 8-bit AVR RISC microcontroller with 32 K
 
 This question sometimes comes up on social media. Some people see the large binary size of Rust programs on desktop and assume Rust will also be too large for microcontrollers. But Embedded Rust has a different side. With `no_std`, we can write programs without the standard library and target small microcontrollers directly. So instead of guessing, let's try it on the Arduino Uno and see how much space our Rust program actually needs.
 
-In this chapter, we will set up an Embedded Rust project for the Arduino Uno and run our first Rust program on the board.
-
 By the way, I didn't have an Arduino Uno before this, and I had never coded with the Arduino IDE either. I just bought one (a cheap clone) to experiment with Rust :)
 
 {% admonition(type="tip") %}
-Don't judge Embedded Rust based only on the Arduino Uno experience. The AVR platform and avr-hal have their own limitations, and the experience can be quite different on other microcontrollers.
+Don't judge Embedded Rust based only on the Arduino Uno experience. The AVR platform and avr-hal have their own limitations, and the experience can be quite different on other microcontrollers. For example, I like Embassy, which makes it easier to work across different boards and use async programming.
 {% end %}
 
 ## AVR HAL

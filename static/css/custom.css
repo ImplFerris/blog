@@ -225,3 +225,7 @@ article {
     background: #999;
     border-radius: 50%;
 }
+
+article {
+    font-family: Georgia, "Times New Roman", serif;
+}

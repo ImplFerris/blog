@@ -208,15 +208,6 @@ powman.seq_cfg().modify(|w| {
 });
 ```
 
-We clear the REQ_IGNORED flag so we start with a clean status before making our power-state request.
-
-```rust
-powman.state().modify(|w| {
-    w.set_req_ignored(false);
-    w.0 |= POWMAN_PASSWORD;
-});
-```
-
 Now, we request the P-state we want by setting the `REQ` field of the `STATE` register.
 
 ```rust

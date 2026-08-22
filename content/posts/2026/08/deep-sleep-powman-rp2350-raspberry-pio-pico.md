@@ -275,5 +275,5 @@ You can find the complete source code for this experiment on [GitHub](https://gi
 
 ## Reference
 
-- [[RP2350 Powman States](https://github.com/mamba2410/rp2350-powman-sleep)]
+- [RP2350 Powman States](https://github.com/mamba2410/rp2350-powman-sleep)
 - [Pico C Examples](https://github.com/raspberrypi/pico-examples/tree/master/low_power/low_power_pstate)

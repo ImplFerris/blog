@@ -488,7 +488,7 @@ pub fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
 }
 ```
 
-We first call the `make_request` function with the access port flag as `false` (the first parameter `ap`), the read flag as `true`, and the address of the `IDCODE` register, which is `0x00`.
+We first call the `make_request` function with the port set to `Dp`, the access type set to `Read`, and the address of the `IDCODE` register, which is `0x00`.
 
 As you noticed, the `make_request` function does not send the request. It gives us the value that needs to be sent. We then put the SWDIO pin in output mode and write those bits.
 

@@ -118,14 +118,14 @@ Now that we understand the basic SWD signals, we can implement them in Rust. We 
 
 ### Generating the SWD Clock
 
-The SWCLK signal provides the timing for SWD communication. We can generate the clock by driving SWCLK high and low with a short delay between each transition.
+The SWCLK signal provides the timing for SWD communication. We can generate one clock cycle by driving SWCLK low and then high, with a short delay between each transition.
 
 ```rust
 fn clock(&mut self) {
-    self.swclk.set_high();
+    self.swclk.set_low();
     self.delay.delay_micros(1);
 
-    self.swclk.set_low();
+    self.swclk.set_high();
     self.delay.delay_micros(1);
 }
 ```
@@ -292,7 +292,7 @@ A typical SWD transaction has three phases:
   <figcaption>SWD successful read operation - From the ARM specification</figcaption>
 </figure>
 
-Because SWDIO is bidirectional, its direction changes during a transaction. A one-cycle turnaround period is inserted whenever control of SWDIO changes. This gives the current controller time to release the line before the other side takes control.
+Because SWDIO is bidirectional, the host and target must take turns driving it. A one-cycle turnaround is inserted when control of SWDIO changes. During the turnaround cycle, neither side drives SWDIO.
 
 In our case, we will read the STM32's DP `IDCODE`. The `IDCODE` is a register in the Debug Port (DP) that contains identification information for the debug port. The host first sends a request to read the register. The target responds with an acknowledgment. The target then sends the 32-bit IDCODE followed by a parity bit.
 
@@ -407,11 +407,8 @@ fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
 
     self.write_bits(request as u32, 8);
 
-    // TURNAROUND
-    // ESP32 stops driving SWDIO.
-    // STM32 will now drive it.
+    // Host -> target turnaround.
     self.swdio_input();
-
     self.clock();
 
     // STM32 sends ACK.
@@ -433,6 +430,8 @@ fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
     // 1-bit parity
     let idcode = self.read_bits(32);
     let parity = self.read_bit();
+
+    // Target -> host turnaround.
     self.clock();
 
     // Check parity.
@@ -576,10 +575,10 @@ impl<'d> Swd<'d> {
     }
 
     fn clock(&mut self) {
-        self.swclk.set_high();
+        self.swclk.set_low();
         self.delay.delay_micros(1);
 
-        self.swclk.set_low();
+        self.swclk.set_high();
         self.delay.delay_micros(1);
     }
 
@@ -693,11 +692,8 @@ impl<'d> Swd<'d> {
 
         self.write_bits(request as u32, 8);
 
-        // TURNAROUND
-        // ESP32 stops driving SWDIO.
-        // STM32 will now drive it.
+        // Host -> target turnaround.
         self.swdio_input();
-
         self.clock();
 
         // STM32 sends ACK.
@@ -719,6 +715,8 @@ impl<'d> Swd<'d> {
         // 1-bit parity
         let idcode = self.read_bits(32);
         let parity = self.read_bit();
+
+        // Target -> host turnaround.
         self.clock();
 
         // Check parity.

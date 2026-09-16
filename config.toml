@@ -1,6 +1,6 @@
 base_url = "https://blog.implrust.com"
 title = "impl Blog for Rust"
-description = "impl Rust Blog Posts"
+description = "Learn Embedded Rust through tutorials and practical projects with Raspberry Pi Pico, ESP32, STM32, Embassy, and other microcontrollers for IoT."
 author = "implFerris"
 theme = "tabi"
 generate_feeds = true

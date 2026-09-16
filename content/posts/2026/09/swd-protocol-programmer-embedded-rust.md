@@ -1,5 +1,6 @@
 +++
 date = "2026-09-06"
+updated = "2026-09-16"
 
 title = "Can You Use ESP32 as SWD Programmer for STM32 with Rust?"
 
@@ -166,7 +167,11 @@ fn write_bit(&mut self, bit: bool) {
         self.swdio.set_low();
     }
 
-    self.clock();
+    self.swclk.set_low();
+    self.delay.delay_micros(1);
+
+    self.swclk.set_high();
+    self.delay.delay_micros(1);
 }
 ```
 
@@ -367,15 +372,31 @@ If you saw the ACK table in the ARM specification, the values are reversed. For 
 
 ## Implementing an SWD Transaction
 
-For reading the DP `IDCODE`, we need to send an 8-bit request packet as part of the SWD transaction. For this, we will first create a helper function to build the request packet:
+We have now seen what an SWD transaction looks like. Let's implement it step by step, starting with the request packet.
+
+### Building the SWD Request
+
+First, we need to construct the 8-bit request packet that will be sent by the host.
 
 ```rust
 const START_BIT: u8 = 0b1;
 const PARK_BIT: u8 = 0b1 << 7;
 
-fn make_request(ap: bool, read: bool, address: u8) -> u8 {
-    let ap = u8::from(ap);
-    let read = u8::from(read);
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Port {
+    Dp,
+    Ap,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Access {
+    Read,
+    Write,
+}
+
+fn make_request(port: Port, access: Access, address: u8) -> u8 {
+    let ap = u8::from(port == Port::Ap);
+    let read = u8::from(access == Access::Read);
 
     let a2 = (address >> 2) & 1;
     let a3 = (address >> 3) & 1;
@@ -385,63 +406,85 @@ fn make_request(ap: bool, read: bool, address: u8) -> u8 {
     START_BIT | (ap << 1) | (read << 2) | (a2 << 3) | (a3 << 4) | (parity << 5) | PARK_BIT
 }
 ```
+### Reading the ACK
 
-Next, let's implement the function to read the `IDCODE`. The actual flow we discussed in theory is what we are now converting into code.
+After sending the request, the target responds with a 3-bit ACK. We can create a helper function to read and interpret this response.
 
 ```rust
 const ACK_OK: u8 = 0b001;
 const ACK_WAIT: u8 = 0b010;
 const ACK_FAULT: u8 = 0b100;
 
-fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
-    // DP IDCODE:
-    // ---------
-    // APnDP = 0
-    // RnW   = 1
-    // A2    = 0
-    // A3    = 0
-    let request = Self::make_request(false, true, 0x00);
+fn read_ack(&mut self) -> Result<(), SwdError> {
+    match self.read_bits(3) as u8 {
+        ACK_OK => Ok(()),
+        ACK_WAIT => Err(SwdError::Wait),
+        ACK_FAULT => Err(SwdError::Fault),
+        ack => Err(SwdError::InvalidAck(ack)),
+    }
+}
+```
 
-    // ESP32 currently owns SWDIO.
+## Reading a Register
+
+Before reading the register, we need a small helper to put SWDIO into the idle state:
+
+```rust
+fn idle_cycle(&mut self) {
+    self.swdio_output();
+    self.swdio.set_low();
+
+    for _ in 0..2 {
+        self.clock();
+    }
+}
+```
+
+We can now implement the function to read a register. Once we have that, we can create a small wrapper function specifically for reading the DP `IDCODE`.
+
+```rust
+const DP_IDCODE: u8 = 0x00;
+
+fn read_register(&mut self, port: Port, address: u8) -> Result<u32, SwdError> {
+    let request = Self::make_request(port, Access::Read, address);
+
     self.swdio_output();
 
+    // Request.
     self.write_bits(request as u32, 8);
 
-    // Host -> target turnaround.
+    // Turnaround.
     self.swdio_input();
     self.clock();
 
-    // STM32 sends ACK.
-    let ack = self.read_bits(3) as u8;
+    // ACK.
+    self.read_ack()?;
 
-    match ack {
-        ACK_OK => {
-            // defmt::info!("ACK = OK");
-        }
-        ACK_WAIT => return Err(SwdError::Wait),
+    // Data.
+    let value = self.read_bits(32);
 
-        ACK_FAULT => return Err(SwdError::Fault),
-
-        _ => return Err(SwdError::InvalidAck(ack)),
-    }
-
-    // STM32 sends:
-    // 32-bit IDCODE
-    // 1-bit parity
-    let idcode = self.read_bits(32);
+    // Parity.
     let parity = self.read_bit();
 
-    // Target -> host turnaround.
-    self.clock();
-
-    // Check parity.
-    let expected_parity = (idcode.count_ones() & 1) != 0;
-
+    let expected_parity = (value.count_ones() & 1) != 0;
     if parity != expected_parity {
         return Err(SwdError::ParityError);
     }
 
-    Ok(idcode)
+    // Target -> host turnaround.
+    self.swdio_input();
+    self.clock();
+
+    // Host now owns SWDIO.
+    self.swdio_output();
+
+    self.idle_cycle();
+
+    Ok(value)
+}
+
+pub fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
+    self.read_register(Port::Dp, DP_IDCODE)
 }
 ```
 
@@ -476,15 +519,6 @@ match swd.read_dp_idcode() {
     Err(error) => {
         defmt::error!("SWD error: {}", error);
     }
-}
-
-// ESP32 takes back control of SWDIO.
-swd.swdio_output();
-swd.swdio.set_low();
-
-// At least 8 idle cycles before stopping the clock.
-for _ in 0..8 {
-    swd.clock();
 }
 ```
 
@@ -536,8 +570,6 @@ fn panic(panic_info: &core::panic::PanicInfo) -> ! {
     loop {}
 }
 
-// This creates a default app-descriptor required by the esp-idf bootloader.
-// For more information see: <https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/app_image_format.html#application-description>
 esp_bootloader_esp_idf::esp_app_desc!();
 
 const ACK_OK: u8 = 0b001;
@@ -546,6 +578,21 @@ const ACK_FAULT: u8 = 0b100;
 
 const START_BIT: u8 = 0b1;
 const PARK_BIT: u8 = 0b1 << 7;
+
+const DP_IDCODE: u8 = 0x00;
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Port {
+    Dp,
+    Ap,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Access {
+    Read,
+    #[allow(dead_code)]
+    Write, // Will use later
+}
 
 struct Swd<'d> {
     swclk: Output<'d>,
@@ -661,14 +708,9 @@ impl<'d> Swd<'d> {
         }
     }
 
-    // Bit:     7     6      5      4    3    2     1      0
-    //      ┌──────┬─────┬──────┬────┬────┬─────┬───────┬──────┐
-    //      │ Park │ Stop│Parity│ A3 │ A2 │ RnW │ APnDP │ Start│
-    //      └──────┴─────┴──────┴────┴────┴─────┴───────┴──────┘
-    //         1     0      P     A3   A2    R      AP      1
-    fn make_request(ap: bool, read: bool, address: u8) -> u8 {
-        let ap = u8::from(ap);
-        let read = u8::from(read);
+    fn make_request(port: Port, access: Access, address: u8) -> u8 {
+        let ap = u8::from(port == Port::Ap);
+        let read = u8::from(access == Access::Read);
 
         let a2 = (address >> 2) & 1;
         let a3 = (address >> 3) & 1;
@@ -678,55 +720,64 @@ impl<'d> Swd<'d> {
         START_BIT | (ap << 1) | (read << 2) | (a2 << 3) | (a3 << 4) | (parity << 5) | PARK_BIT
     }
 
-    fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
-        // DP IDCODE:
-        // ---------
-        // APnDP = 0
-        // RnW   = 1
-        // A2    = 0
-        // A3    = 0
-        let request = Self::make_request(false, true, 0x00);
+    fn read_ack(&mut self) -> Result<(), SwdError> {
+        match self.read_bits(3) as u8 {
+            ACK_OK => Ok(()),
+            ACK_WAIT => Err(SwdError::Wait),
+            ACK_FAULT => Err(SwdError::Fault),
+            ack => Err(SwdError::InvalidAck(ack)),
+        }
+    }
 
-        // ESP32 currently owns SWDIO.
+    fn idle_cycle(&mut self) {
+        self.swdio_output();
+        self.swdio.set_low();
+
+        for _ in 0..2 {
+            self.clock();
+        }
+    }
+
+    fn read_register(&mut self, port: Port, address: u8) -> Result<u32, SwdError> {
+        let request = Self::make_request(port, Access::Read, address);
+
         self.swdio_output();
 
+        // Request.
         self.write_bits(request as u32, 8);
 
-        // Host -> target turnaround.
+        // Turnaround.
         self.swdio_input();
         self.clock();
 
-        // STM32 sends ACK.
-        let ack = self.read_bits(3) as u8;
+        // ACK.
+        self.read_ack()?;
 
-        match ack {
-            ACK_OK => {
-                // defmt::info!("ACK = OK");
-            }
-            ACK_WAIT => return Err(SwdError::Wait),
+        // Data.
+        let value = self.read_bits(32);
 
-            ACK_FAULT => return Err(SwdError::Fault),
-
-            _ => return Err(SwdError::InvalidAck(ack)),
-        }
-
-        // STM32 sends:
-        // 32-bit IDCODE
-        // 1-bit parity
-        let idcode = self.read_bits(32);
+        // Parity.
         let parity = self.read_bit();
 
-        // Target -> host turnaround.
-        self.clock();
-
-        // Check parity.
-        let expected_parity = (idcode.count_ones() & 1) != 0;
-
+        let expected_parity = (value.count_ones() & 1) != 0;
         if parity != expected_parity {
             return Err(SwdError::ParityError);
         }
 
-        Ok(idcode)
+        // Target -> host turnaround.
+        self.swdio_input();
+        self.clock();
+
+        // Host now owns SWDIO.
+        self.swdio_output();
+
+        self.idle_cycle();
+
+        Ok(value)
+    }
+
+    pub fn read_dp_idcode(&mut self) -> Result<u32, SwdError> {
+        self.read_register(Port::Dp, DP_IDCODE)
     }
 }
 
@@ -736,28 +787,8 @@ impl<'d> Swd<'d> {
 )]
 #[main]
 fn main() -> ! {
-    // generator version: 1.3.0
-    // generator parameters: --chip esp32 -o esp32-wroom-32e -o unstable-hal -o defmt -o vscode -o neovim -o zed -o esp
-
     let config = esp_hal::Config::default().with_cpu_clock(CpuClock::max());
     let peripherals = esp_hal::init(config);
-
-    // The following pins are used to bootstrap the chip. They are available
-    // for use, but check the datasheet of the module for more information on them.
-    // - GPIO0
-    // - GPIO2
-    // - GPIO5
-    // - GPIO12
-    // - GPIO15
-    // These GPIO pins are in use by some feature of the module and should not be used.
-    let _ = peripherals.GPIO6;
-    let _ = peripherals.GPIO7;
-    let _ = peripherals.GPIO8;
-    let _ = peripherals.GPIO9;
-    let _ = peripherals.GPIO10;
-    let _ = peripherals.GPIO11;
-    let _ = peripherals.GPIO16;
-    let _ = peripherals.GPIO20;
 
     let delay = Delay::new();
 
@@ -783,20 +814,9 @@ fn main() -> ! {
         }
     }
 
-    // ESP32 takes back control of SWDIO.
-    swd.swdio_output();
-    swd.swdio.set_low();
-
-    // At least 8 idle cycles before stopping the clock.
-    for _ in 0..8 {
-        swd.clock();
-    }
-
     loop {
         core::hint::spin_loop();
     }
-
-    // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.1.0/examples
 }
 ```
 

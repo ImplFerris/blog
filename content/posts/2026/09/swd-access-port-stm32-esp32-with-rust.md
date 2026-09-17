@@ -39,7 +39,7 @@ The overall flow is:
 2. Select the Access Port and its register bank.
 3. Read and verify the AHB-AP IDR.
 
-## Structure and other modifications
+## Structure
 
 Before moving further, I have restructured the code to keep things organized. We have separate modules for the STM32F1-specific code and the SWD code, while `main` will contain only the code needed to put everything together. Any registers and functions specific to the STM32F1 will be placed in the `stm32f1` module.
 
@@ -177,11 +177,7 @@ Since we are working with the AHB-AP, we will keep `APSEL` set to 0.
 
 ## Accessing AP Registers
 
-In the previous article, we saw how to read registers from the Debug Port (DP). This time, we need to access registers from the Access Port (AP).
-
-The SWD request packet only provides two address bits, `A[3:2]`, for selecting an AP register. The lower two address bits, `A[1:0]`, are always 0. Therefore, the address bits in the SWD request can select only four register locations at a time.
-
-To access more registers, the AP register space is divided into banks. Each bank contains four register locations, selected by the `A[3:2]` bits in the SWD request.
+Unlike the Debug Port registers, there are more Access Port registers than can be selected using the two address bits available in the SWD request. To access the additional registers, the AP register space is divided into banks.
 
 The bank is selected using the `APBANKSEL` field in the Debug Port's `SELECT` register. This field provides the upper address bits, `A[7:4]`, while `A[3:2]` come from the SWD request. Together, these fields determine which AP register we access.
 
@@ -270,7 +266,6 @@ pub fn write_ap(&mut self, address: AhbApRegister, value: u32) -> Result<(), Swd
     self.write_register(Port::Ap, address as u8, value)
 }
 ```
-
 
 ## Verify the AHB-AP
 

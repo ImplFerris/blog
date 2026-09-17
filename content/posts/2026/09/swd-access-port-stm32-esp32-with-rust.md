@@ -177,7 +177,7 @@ Since we are working with the AHB-AP, we will keep `APSEL` set to 0.
 
 ## Accessing AP Registers
 
-Unlike the Debug Port registers, there are more Access Port registers than can be selected using the two address bits available in the SWD request. To access the additional registers, the AP register space is divided into banks.
+Unlike the Debug Port registers, there are more Access Port registers. We can't select them just using the two address bits available in the SWD request. To access the additional registers, the AP register space is divided into banks.
 
 The bank is selected using the `APBANKSEL` field in the Debug Port's `SELECT` register. This field provides the upper address bits, `A[7:4]`, while `A[3:2]` come from the SWD request. Together, these fields determine which AP register we access.
 

@@ -18,8 +18,8 @@ tags = [
 +++
 
 <figure>
-  <img src="/img/2026/09/Flashing-STM32-Firmware-With-Rust-and-ESP32.jpg" alt="Overview - Flashing STM32 Firmware with ESP32 and Embedded Rust">
-  <figcaption>Overview - Flashing STM32 Firmware with ESP32 and Embedded Rust</figcaption>
+  <img src="/img/2026/09/esp32-swd-stm32-blue-pill-STM32F103C8T6-swd.jpg" alt="ESP32 connected to the STM32 SWD pins">
+  <figcaption>ESP32 connected to the STM32 SWD pins (ignore the logic analyzer)</figcaption>
 </figure>
 
 If you have read my previous articles, you know that I started with the goal of writing Embedded Rust code to use an ESP32 DevKit as a programmer and flash firmware into an STM32 Blue Pill board(STM32F103C8T6).
